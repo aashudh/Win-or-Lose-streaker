@@ -6,7 +6,7 @@ If you mark **Lose two times in a row**, the site will symbolically "self-destru
 
 live demo (https://aashudh.github.io/Win-or-Lose-streaker/)
 
-> ✨ A simple ritual to reinforce commitment, willpower, and inner growth.
+> ✨ A simple task to reinforce commitment, willpower, and inner growth.
 
 ---
 
