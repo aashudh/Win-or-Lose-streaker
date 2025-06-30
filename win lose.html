@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Discipline Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 60px;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    button {
+      font-size: 24px;
+      padding: 15px 30px;
+      margin: 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+    .win {
+      background-color: #4caf50;
+      color: white;
+    }
+    .lose {
+      background-color: #f44336;
+      color: white;
+    }
+    #message {
+      margin-top: 30px;
+      font-size: 22px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Did You Win Today?</h1>
+  <button class="win" onclick="markDay('win')">✅ WIN</button>
+  <button class="lose" onclick="markDay('lose')">❌ LOSE</button>
+  <div id="message"></div>
+
+  <script>
+    let data = JSON.parse(localStorage.getItem('streakData')) || {
+      last: null,
+      loseStreak: 0,
+      log: []
+    };
+
+    function markDay(result) {
+      const today = new Date().toDateString();
+      if (data.log.length > 0 && data.log[data.log.length - 1].date === today) {
+        document.getElementById('message').innerText = "You already marked today.";
+        return;
+      }
+
+      data.last = result;
+      data.log.push({ date: today, result });
+
+      if (result === 'lose') {
+        data.loseStreak += 1;
+      } else {
+        data.loseStreak = 0;
+      }
+
+      if (data.loseStreak >= 2) {
+        document.body.innerHTML = `<h1 style="color:red;">🔥 You lost twice in a row. The site is destroyed.</h1>`;
+        localStorage.removeItem('streakData');
+        return;
+      }
+
+      localStorage.setItem('streakData', JSON.stringify(data));
+      document.getElementById('message').innerText = `Marked "${result.toUpperCase()}" for ${today}.`;
+    }
+  </script>
+
+</body>
+</html>
